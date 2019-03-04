@@ -2,7 +2,6 @@ package com.example.colorlearner;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,13 +13,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.*;
+
+
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        update_display(null);
+        colors.add("GREEN");
+        colors.add("RED");
+        colors.add("BLUE");
+        colors.add("WHITE");
+        colors.add("PURPLE");
+        colors.add("ORANGE");
+        update_display( colors);
         addListener();
     }
     private void addListener(){
@@ -28,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionID, KeyEvent event){
                 if (actionID == EditorInfo.IME_ACTION_DONE){
-                    rightColor(getCurrentFocus());
+                    rightColor(getCurrentFocus(), colors);
                     hideKeyboardFrom(getApplicationContext(), getCurrentFocus());
                     return true;
                 }else{
@@ -49,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         EditText top6 = findViewById(R.id.top6);
         top6.setOnEditorActionListener(listener);
     }
-    public String[] colors = {"RED", "BLUE", "GREEN", "PINK", "WHITE","BLACK", "PURPLE", "ORANGE"};
-    public String c1, c2, c3, c4, c5, c6;
+    ArrayList<String> colors = new ArrayList<String>();
+
     private void setColorByName(String c, View view){
         int colorID = getResources().getIdentifier(c,"color",this.getPackageName());
         if (colorID != 0) {
@@ -60,25 +69,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this,"Your color is wrong", Toast.LENGTH_SHORT).show();
         }
     }
-    public void update_display(View view){
-        int ints[] = {0,0,0,0,0,0};
-        int temp;
-        for (int i=0; i<6; i++){
-            temp = (int)(Math.random()*8);
-            for (int j = 0; j<i; j++){
-                if (ints[j] == temp){
-                    i--;
-                }else{
-                    ints[i]=temp;
-                }
-            }
-        }
-        setColorByName(colors[ints[0]],findViewById(R.id.top1));
-        setColorByName(colors[ints[1]],findViewById(R.id.top2));
-        setColorByName(colors[ints[2]],findViewById(R.id.top3));
-        setColorByName(colors[ints[3]],findViewById(R.id.top4));
-        setColorByName(colors[ints[4]],findViewById(R.id.top5));
-        setColorByName(colors[ints[5]],findViewById(R.id.top6));
+    public void update_display( ArrayList colors){
+        Collections.shuffle(colors);
+        setColorByName((String)colors.get(0),findViewById(R.id.top1));
+        setColorByName((String)colors.get(1),findViewById(R.id.top2));
+        setColorByName((String)colors.get(2),findViewById(R.id.top3));
+        setColorByName((String)colors.get(3),findViewById(R.id.top4));
+        setColorByName((String)colors.get(4),findViewById(R.id.top5));
+        setColorByName((String)colors.get(5),findViewById(R.id.top6));
         EditText top1 = findViewById(R.id.top1);
         EditText top2 = findViewById(R.id.top2);
         EditText top3 = findViewById(R.id.top3);
@@ -91,18 +89,19 @@ public class MainActivity extends AppCompatActivity {
         top4.setText("");
         top5.setText("");
         top6.setText("");
-        c1 = colors[ints[0]];
-        c2 = colors[ints[1]];
-        c3 = colors[ints[2]];
-        c4 = colors[ints[3]];
-        c5 = colors[ints[4]];
-        c6 = colors[ints[5]];
+
     }
     public void hideKeyboardFrom(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-    private void rightColor(View view){
+    private void rightColor(View view, ArrayList colors){
+        String c1 = (String)colors.get(0);
+        String c2 = (String)colors.get(1);
+        String c3 = (String)colors.get(2);
+        String c4 = (String)colors.get(3);
+        String c5 = (String)colors.get(4);
+        String c6 = (String)colors.get(5);
         int thing = view.getId();
         EditText input = findViewById(thing);
         String name = input.getText().toString().toUpperCase();
@@ -110,41 +109,50 @@ public class MainActivity extends AppCompatActivity {
             case R.id.top1:
                 if (name.equalsIgnoreCase(c1)) {
                     Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
+                    break;
                 }else {
                     Toast.makeText(this, "Wrong", Toast.LENGTH_SHORT).show();
                 }
             case R.id.top2:
                 if (name.equalsIgnoreCase(c2)) {
                     Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
+                    break;
                 }else {
                     Toast.makeText(this, "Wrong", Toast.LENGTH_SHORT).show();
                 }
             case R.id.top3:
                 if (name.equalsIgnoreCase(c3)) {
                     Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
+                    break;
                 }else {
                     Toast.makeText(this, "Wrong", Toast.LENGTH_SHORT).show();
                 }
             case R.id.top4:
                 if (name.equalsIgnoreCase(c4)) {
                     Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
+                    break;
                 }else {
                     Toast.makeText(this, "Wrong", Toast.LENGTH_SHORT).show();
                 }
             case R.id.top5:
                 if (name.equalsIgnoreCase(c5)) {
                     Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
+                    break;
                 }else {
                     Toast.makeText(this, "Wrong", Toast.LENGTH_SHORT).show();
                 }
             case R.id.top6:
                 if (name.equalsIgnoreCase(c6)) {
                     Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
+                    break;
                 }else {
                     Toast.makeText(this, "Wrong", Toast.LENGTH_SHORT).show();
                 }
             }
             hideKeyboardFrom(getApplicationContext(),getCurrentFocus());
+        }
+        public void click(View view){
+            update_display(colors);
         }
 
     }

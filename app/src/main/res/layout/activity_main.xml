@@ -60,6 +60,6 @@
         android:layout_height="wrap_content"
         android:text="Shuffle"
         android:layout_weight="1"
-        android:onClick="update_display"/>
+        android:onClick="click"/>
 
 </LinearLayout>
